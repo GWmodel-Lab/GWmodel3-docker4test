@@ -3,7 +3,7 @@ FROM fedora:34
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Etc/UTC
 
-RUN dnf install -y R-core gsl-devel libcurl-devel libxml2-devel fontconfig-devel openssl-devel udunits2-devel harfbuzz-devel fribidi-devel \
+RUN dnf install -y R-core gsl-devel openssl-devel libcurl-devel libxml2-devel fontconfig-devel udunits2-devel harfbuzz-devel fribidi-devel \
         geos-devel gdal-devel proj-devel sqlite-devel && \
     echo 'options("repos" = c(CRAN="https://cloud.r-project.org/"))' >> ~/.Rprofile
 RUN Rscript -e "install.packages(c('devtools', 'Rcpp', 'RcppArmadillo', 'sf'), Ncpus = parallel::detectCores(), quiet = T)"
