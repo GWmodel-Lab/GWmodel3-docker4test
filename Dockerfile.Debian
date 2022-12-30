@@ -11,6 +11,9 @@ RUN apt-get -qq update && \
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-key '95C0FAF38DB3CCAD0C080A7BDC78B2DDEABC47B7' && \
     echo "deb http://cloud.r-project.org/bin/linux/debian buster-cran40/" >> /etc/apt/sources.list && \
     apt-get -qq install --no-install-recommends r-base r-base-dev libgsl-dev
-RUN Rscript -e "install.packages(c('devtools', 'Rcpp', 'RcppArmadillo', 'sf'), Ncpus = parallel::detectCores(), quiet = T)"
+
+# Install R packages
+RUN apt-get -qq install libcurl4-openssl-dev libxml2-dev libfontconfig1-dev libssl-dev libudunits2-dev && \
+    Rscript -e "install.packages(c('devtools', 'Rcpp', 'RcppArmadillo', 'sf'), Ncpus = parallel::detectCores(), quiet = T)"
 
 ENTRYPOINT [ "R" ]

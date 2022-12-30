@@ -11,6 +11,9 @@ RUN apt-get -qq update && \
 RUN wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc && \
     add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/" && \
     apt-get -qq install --no-install-recommends r-base libgsl-dev
-RUN Rscript -e "install.packages(c('devtools', 'Rcpp', 'RcppArmadillo', 'sf'), Ncpus = parallel::detectCores(), quiet = T)"
+
+# Install R packages
+RUN apt-get -qq install libcurl4-openssl-dev libxml2-dev libfontconfig1-dev libssl-dev libudunits2-dev && \
+    Rscript -e "install.packages(c('devtools', 'Rcpp', 'RcppArmadillo', 'sf'), Ncpus = parallel::detectCores(), quiet = T)"
 
 ENTRYPOINT [ "R" ]
