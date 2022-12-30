@@ -1,0 +1,25 @@
+FROM debian:10
+
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=Etc/UTC
+
+# Install R Dependencies
+RUN apt-get -qq update && \
+    apt-get -qq install -y gnupg build-essential gfortran devscripts wget
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-key '95C0FAF38DB3CCAD0C080A7BDC78B2DDEABC47B7' && \
+    echo "deb http://cloud.r-project.org/bin/linux/debian buster-cran40/" >> /etc/apt/sources.list && \
+    apt-get -qq update && \
+    apt-get -qq install --no-install-recommends r-base-dev libgsl-dev libcurl4-openssl-dev
+
+# Build and Install R-devel
+RUN mkdir R-devel && \
+    wget -qO- https://stat.ethz.ch/R/daily/R-devel.tar.gz | tar -xzf- --directory=R-devel --strip-components=1 && \
+    cd R-devel && ./configure --with-x=no && make -j && make install
+
+# Install R packages
+RUN apt-get -qq install libxml2-dev libfontconfig1-dev libssl-dev libudunits2-dev libharfbuzz-dev libfribidi-dev \
+        libgdal-dev libgeos-dev libproj-dev libsqlite3-dev
+RUN echo 'options("repos" = c(CRAN="https://cloud.r-project.org/"))' >> ~/.Rprofile && \
+    /usr/local/lib/R/bin/Rscript -e "install.packages(c('devtools', 'Rcpp', 'RcppArmadillo', 'sf'), Ncpus = parallel::detectCores(), quiet = T)"
+
+ENTRYPOINT [ "/usr/local/lib/R/bin/R" ]
