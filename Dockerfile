@@ -13,7 +13,8 @@ RUN wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc |
     apt-get -qq install --no-install-recommends r-base libgsl-dev
 
 # Install R packages
-RUN apt-get -qq install libcurl4-openssl-dev libxml2-dev libfontconfig1-dev libssl-dev libudunits2-dev && \
-    Rscript -e "install.packages(c('devtools', 'Rcpp', 'RcppArmadillo', 'sf'), Ncpus = parallel::detectCores(), quiet = T)"
+RUN apt-get -qq install libcurl4-openssl-dev libxml2-dev libfontconfig1-dev libssl-dev libudunits2-dev libharfbuzz-dev libfribidi-dev \
+        libgdal-dev libgeos-dev libproj-dev libsqlite3-dev
+RUN Rscript -e "install.packages(c('devtools', 'Rcpp', 'RcppArmadillo', 'sf'), Ncpus = parallel::detectCores(), quiet = T)"
 
 ENTRYPOINT [ "R" ]
