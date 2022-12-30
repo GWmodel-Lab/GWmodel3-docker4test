@@ -1,0 +1,10 @@
+FROM fedora:34
+
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=Etc/UTC
+
+RUN dnf install -y R-core-devel gsl-devel && \
+    echo 'options("repos" = c(CRAN="https://cloud.r-project.org/"))' >> ~/.Rprofile && \
+    Rscript -e "install.packages(c('devtools', 'Rcpp', 'RcppArmadillo', 'sf'), Ncpus = parallel::detectCores(), quiet = T)"
+
+ENTRYPOINT [ "R" ]
