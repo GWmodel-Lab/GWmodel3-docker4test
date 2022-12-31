@@ -7,6 +7,6 @@ RUN dnf install -y R-core-devel gsl-devel openssl-devel libcurl-devel libxml2-de
         freetype-devel libpng-devel libtiff-devel libjpeg-turbo-devel \
         geos-devel gdal-devel proj-devel sqlite-devel
 RUN echo 'options("repos" = c(CRAN="https://cloud.r-project.org/"))' >> ~/.Rprofile && \
-    Rscript -e "install.packages(c('devtools', 'Rcpp', 'RcppArmadillo', 'sf'), Ncpus = parallel::detectCores(), quiet = T)"
+    Rscript -e "install.packages(c('devtools', 'Rcpp', 'RcppArmadillo', 'sf', 'rcmdcheck'), Ncpus = parallel::detectCores(), quiet = T)"
 
 ENTRYPOINT [ "R" ]

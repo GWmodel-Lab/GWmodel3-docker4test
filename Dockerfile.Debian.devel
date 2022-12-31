@@ -20,6 +20,6 @@ RUN mkdir R-devel && \
 RUN apt-get -qq install -y libxml2-dev libfontconfig1-dev libssl-dev libudunits2-dev libharfbuzz-dev libfribidi-dev \
         libgdal-dev libgeos-dev libproj-dev libsqlite3-dev
 RUN echo 'options("repos" = c(CRAN="https://cloud.r-project.org/"))' >> ~/.Rprofile && \
-    /usr/local/lib/R/bin/Rscript -e "install.packages(c('devtools', 'Rcpp', 'RcppArmadillo', 'sf'), Ncpus = parallel::detectCores(), quiet = T)"
+    /usr/local/lib/R/bin/Rscript -e "install.packages(c('devtools', 'Rcpp', 'RcppArmadillo', 'sf', 'rcmdcheck'), Ncpus = parallel::detectCores(), quiet = T)"
 
 ENTRYPOINT [ "/usr/local/lib/R/bin/R" ]
