@@ -14,7 +14,7 @@ RUN mkdir R-devel && \
 # Install dependent R packages
 RUN dnf install -y libxml2-devel fontconfig-devel openssl-devel udunits2-devel harfbuzz-devel fribidi-devel \
         freetype-devel libpng-devel libtiff-devel libjpeg-turbo-devel \
-        geos-devel gdal-devel proj-devel sqlite-devel gsl-devel
+        geos-devel gdal-devel proj-devel sqlite-devel gsl-devel cairo-devel
 RUN echo 'options("repos" = c(CRAN="https://cloud.r-project.org/"))' >> ~/.Rprofile && \
     /usr/local/lib64/R/bin/Rscript -e "install.packages(c('devtools', 'Rcpp', 'RcppArmadillo', 'sf', 'rcmdcheck', 'Cairo'), Ncpus=parallel::detectCores(), quiet=T)"
 
