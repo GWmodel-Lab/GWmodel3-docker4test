@@ -5,7 +5,7 @@ ENV TZ=Etc/UTC
 
 # Install R Dependencies
 RUN apt-get -qq update && \
-    apt-get -qq install --no-install-recommends build-essential gfortran devscripts wget software-properties-common dirmngr
+    apt-get -qq install --no-install-recommends build-essential gfortran devscripts wget software-properties-common dirmngr pandoc
 
 # Install R from CRAN
 RUN wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc && \

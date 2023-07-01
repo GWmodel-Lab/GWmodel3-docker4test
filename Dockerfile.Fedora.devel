@@ -4,7 +4,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Etc/UTC
 
 # Install R-devel dependencies
-RUN dnf install -y devscripts R-core-devel wget readline-devel libcurl-devel
+RUN dnf install -y devscripts R-core-devel wget readline-devel libcurl-devel pandoc
 
 # Build and Install R-devel
 RUN mkdir R-devel && \
