@@ -4,7 +4,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Etc/UTC
 
 # Install R-devel dependencies
-RUN dnf install -y devscripts R-core-devel wget readline-devel libcurl-devel pandoc
+RUN dnf install -y devscripts R-core-devel wget readline-devel libcurl-devel pandoc cairo-devel
 
 # Build and Install R-devel
 RUN mkdir R-devel && \
@@ -14,7 +14,7 @@ RUN mkdir R-devel && \
 # Install dependent R packages
 RUN dnf install -y libxml2-devel fontconfig-devel openssl-devel udunits2-devel harfbuzz-devel fribidi-devel \
         freetype-devel libpng-devel libtiff-devel libjpeg-turbo-devel \
-        geos-devel gdal-devel proj-devel sqlite-devel gsl-devel cairo-devel
+        geos-devel gdal-devel proj-devel sqlite-devel gsl-devel
 RUN echo 'options("repos" = c(CRAN="https://cloud.r-project.org/"))' >> ~/.Rprofile && \
     /usr/local/lib64/R/bin/Rscript -e "install.packages(c('devtools', 'Rcpp', 'RcppArmadillo', 'sf', 'rcmdcheck', 'Cairo'), Ncpus=parallel::detectCores(), quiet=T)"
 
