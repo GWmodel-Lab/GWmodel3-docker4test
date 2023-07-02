@@ -5,7 +5,7 @@ ENV TZ=Etc/UTC
 
 # Install R Dependencies
 RUN apt-get -qq update && \
-    apt-get -qq install -y gnupg build-essential gfortran devscripts wget pandoc
+    apt-get -qq install -y gnupg build-essential gfortran devscripts wget pandoc qpdf
 
 # Install R from CRAN
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-key '95C0FAF38DB3CCAD0C080A7BDC78B2DDEABC47B7' && \
