@@ -1,4 +1,4 @@
-FROM fedora:34
+FROM fedora:40
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Etc/UTC
@@ -14,8 +14,9 @@ RUN mkdir R-devel && \
 # Install dependent R packages
 RUN dnf install -y libxml2-devel fontconfig-devel openssl-devel udunits2-devel harfbuzz-devel fribidi-devel \
         freetype-devel libpng-devel libtiff-devel libjpeg-turbo-devel \
-        geos-devel gdal-devel proj-devel sqlite-devel gsl-devel
-RUN echo 'options("repos" = c(CRAN="https://cloud.r-project.org/"))' >> ~/.Rprofile && \
-    /usr/local/lib64/R/bin/Rscript -e "install.packages(c('devtools', 'Rcpp', 'RcppArmadillo', 'sf', 'rcmdcheck', 'Cairo'), Ncpus=parallel::detectCores(), quiet=T)"
+        geos-devel gdal-devel proj-devel sqlite-devel gsl-devel openmpi-devel
+RUN Rscript -e 'chooseCRANmirror(ind=1); install.packages("pak")' && \
+    Rscript -e "pak::pkg_install(c('devtools', 'Rcpp', 'RcppArmadillo', 'sf', 'rcmdcheck', 'Cairo'))" && \
+    Rscript -e 'chooseCRANmirror(ind=1); install.packages("Rmpi", configure.args = c("--with-Rmpi-include=/usr/include/openmpi-`arch`/", "--with-Rmpi-libpath=/usr/lib64/openmpi/lib/", "--with-Rmpi-type=OPENMPI"))'
 
 ENTRYPOINT [ "/usr/local/lib64/R/bin/R" ]
